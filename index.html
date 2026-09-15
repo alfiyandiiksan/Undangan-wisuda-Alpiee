@@ -13,7 +13,6 @@
     <style>
         body { font-family: 'Montserrat', sans-serif; }
         .font-serif-title { font-family: 'Cinzel', serif; }
-        /* Latar belakang cerah, hangat, dan ceria */
         .bg-bright-celebration {
             background: linear-gradient(135deg, #fef8ec 0%, #fdedd0 100%);
         }
@@ -21,7 +20,12 @@
 </head>
 <body class="bg-bright-celebration text-slate-800 min-h-screen w-screen flex items-center justify-center p-4 overflow-x-hidden relative">
 
-    <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <!-- Audio dengan musik baru yang diperbarui -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="ssstik.io_1789502023264.mp3" type="audio/mpeg">
+        Browsermu tidak mendukung elemen audio.
+    </audio>
+
     <button id="music-toggle" class="absolute top-4 right-4 z-50 bg-amber-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:scale-110 transition duration-300">
         <i id="music-icon" class="fas fa-music text-sm"></i>
     </button>
@@ -34,9 +38,8 @@
             🎉 ✨ 🎓
         </div>
 
-        <!-- Wadah Foto dengan overflow-hidden agar gambar rapi di dalam lingkaran -->
         <div class="w-48 h-48 md:w-46 md:h-46 mx-auto rounded-full border-4 border-amber-400 p-1 shadow-md bg-white overflow-hidden">
-            <img src="foto1.jpg" 
+            <img src="foto1.JPG" 
                  alt="Foto Alpi Yandi Iksan" 
                  class="w-full h-full object-cover rounded-full" 
                  style="object-position: center 25%;">
@@ -53,7 +56,6 @@
         </div>
 
         <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200/60 space-y-3 text-left">
-            
             <div class="flex items-start space-x-3">
                 <div class="text-amber-600 text-base mt-0.5 flex-shrink-0"><i class="fas fa-graduation-cap"></i></div>
                 <div class="flex-1 min-w-0 break-words">
@@ -79,7 +81,7 @@
             </div>
         </div>
 
-        <!-- Kolom Hitung Mundur (Countdown) -->
+        <!-- Kolom Hitung Mundur -->
         <div class="grid grid-cols-4 gap-2 text-center max-w-xs mx-auto">
             <div class="bg-white py-1.5 px-1 rounded-lg border border-amber-200 shadow-sm">
                 <span id="days" class="text-base font-bold text-amber-600 block">00</span>
@@ -109,7 +111,6 @@
     </main>
 
     <script>
-        // Target waktu hitung mundur: Rabu, 14 Oktober 2026 jam 15:00:00
         const targetDate = new Date("October 14, 2026 15:00:00").getTime();
 
         setInterval(function() {
@@ -137,11 +138,15 @@
             if (playing) {
                 music.pause();
                 icon.className = "fas fa-music";
+                playing = false;
             } else {
-                music.play().catch(e => console.log("Audio di-block oleh kebijakan browser"));
-                icon.className = "fas fa-pause";
+                music.play().then(() => {
+                    icon.className = "fas fa-pause";
+                    playing = true;
+                }).catch(e => {
+                    console.log("Gagal memutar audio:", e);
+                });
             }
-            playing = !playing;
         });
     </script>
 </body>
